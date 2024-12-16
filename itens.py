@@ -8,6 +8,16 @@ class Monstro:
     def __str__(self):
         return f"{self.nome}: Vida {self.vida}, Dano {self.dano}, Destreza {self.destreza}"
 
+# Sistema de combate
+
+class personagem():
+    def __init__(self, dano, vida, destreza):
+        self.dano = dano
+        self.vida = vida
+        self.destreza = destreza
+
+def combate():
+    player = 
 
 # Monstros Fáceis
 
@@ -18,7 +28,6 @@ monstrosFaceis = [
     Monstro("Lobo Gigante", 70, 20, 18),
     Monstro("Harpia", 100, 22, 25)
 ]
-
 
 # Monstros Moderados
 
@@ -52,7 +61,7 @@ inventário = [
         "tipo": "arma",
         "dano": 8,
         "propriedades": ["cortante", "perfurante"],
-        "encantamento": "Fogo"
+        "encantamento": "Fogo",
     },
     {
         "nome": "Arco Composto",
@@ -82,6 +91,18 @@ inventário = [
         "tipo": "equipamento",
         "bonus": "velocidade +3",
         "propriedades": ["agilidade"]
+    },
+
+    # Curas
+    {
+        "nome": "poção de cura 20",
+        "tipo": "cura",
+        "bonus": "recupera 20 de vida",
+    },
+    {
+        "nome": "poção de cura 100",
+        "tipo": "cura",
+        "bonus": "recupera 100 de vida",
     }
 ]
 

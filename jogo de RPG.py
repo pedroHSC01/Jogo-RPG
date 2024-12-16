@@ -1,12 +1,6 @@
-class personagem():
-    def __init__(self, dano, vida, destreza):
-        self.dano = dano
-        self.vida = vida
-        self.destreza = destreza
-
 import random
 from funções import lista, texto
-from itens import monstrosFaceis, inventário, trabalhos
+from itens import monstrosFaceis, inventário, trabalhos, monstrosModerados, monstrosDificeis
 
 #HUD
 
@@ -28,6 +22,7 @@ print("""
 opcao = False
 op = [1, 2, 3, 4]
 c_cura = 0
+
 while True:
     opcao = int(input(esc))
 
@@ -62,16 +57,24 @@ R: """))
 """
 Tem certeza? S/N
 
-R: 
-""")).upper()
+R: """)).upper()
                 except:
                     if opcao2 not in ("SN"):
                         print("Opção inexistente")
+                    else: 
+                        print("Erro")
                 else:
                     if opcao2 == "S":
-                        monstro_atual = random.choice(lista.get_list(monstrosFaceis))
-                        print(monstro_atual)
-                    if opcao2 == "N":
+                        if opcao == 1:
+                            monstro_atual = random.choice(lista.get_list(monstrosFaceis))
+                            print(monstro_atual)
+                        elif opcao == 2:
+                            monstro_atual = random.choice(lista.get_list(monstrosModerados))
+                            print(monstro_atual)
+                        elif opcao == 3:
+                            monstro_atual = random.choice(lista.get_list(monstrosDificeis))
+                            print(monstro_atual)
+                    elif opcao2 == "N":
                         break
 
     if opcao == 2:
@@ -93,8 +96,8 @@ R:
     if opcao == 4:
         print(texto.linha(30), end="\n \n")
         for i, item in enumerate(inventário):
-            if item["tipo"] == "Cura":
-                print(f"{i} - {item['tipo']}")
+            if item["tipo"] == "cura":
+                print(f"{i} - {item['nome']}", end="\n \n")
                 c_cura += 1
         if c_cura == 0:
             print("\033[1;31mVocê não tem nenhuma cura\033[m", end='\n \n')
