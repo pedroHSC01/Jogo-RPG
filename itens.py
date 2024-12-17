@@ -11,13 +11,45 @@ class Monstro:
 # Sistema de combate
 
 class personagem():
-    def __init__(self, dano, vida, destreza):
+    def __init__(self, nome, dano, vida, destreza):
+        self.nome = nome
         self.dano = dano
         self.vida = vida
         self.destreza = destreza
+    def __str__(self):
+        return f"Nome: {self.nome}\nDano: {self.dano}\nVida: {self.vida}\nDestreza: {self.destreza}"
+
+personagens = [
+    ["Alrindel", 15, 13, 25],
+    ["Baruk", 20, 20, 7],
+    ["Gideon", 35, 26, 8],
+    ["Lyra", 9, 8, 16],
+    ["Valeria", 15, 27, 19],
+]
+personage = [
+    personagem("Alrindel", 15, 13, 25),
+    personagem("Baruk", 20, 20, 7),
+    personagem("Gideon", 35, 26, 8),
+    personagem("Lyra", 9, 8, 16),
+    personagem("Valeria", 15, 27, 19)
+]
 
 def combate():
-    player = 
+    player_status = [
+        {
+            "pdano": personagem.dano,
+            "pvida": personagem.vida,
+            "pdest": personagem.destreza
+        }
+    ]
+    monstro_status = [
+        {
+            "mdano": Monstro.dano,
+            "mvida": Monstro.vida,
+            "mdest": Monstro.destreza
+        }
+    ]
+
 
 # Monstros Fáceis
 
@@ -110,13 +142,13 @@ trabalhos = [
     {
         "nome": "Atendente de Loja",
         "função": "Auxiliar clientes, organizar produtos e realizar vendas",
-        "tempo": "8",
+        "tempo": 8,
         "dinheiro": "15"
     },
     {
         "nome": "Garçom",
         "função": "Atender os clientes",
-        "tempo": "6",
+        "tempo": 6,
         "dinheiro": "7"
     },
     {
@@ -128,7 +160,7 @@ trabalhos = [
     {
         "nome": "Ajudande de fazenda",
         "função": "Plantar, regar, colher etc.",
-        "tempo": "10",
+        "tempo": 10,
         "dinheiro": "18"
     }
 ]
