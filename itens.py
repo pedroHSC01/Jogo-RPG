@@ -1,31 +1,70 @@
+from random import choices, randint
+
 class Monstro:
-    def __init__(self, nome, vida, dano, destreza):
+    def __init__(self, nome, vida, dano, destreza, arma = None):
         self.nome = nome
         self.vida = vida
         self.dano = dano
         self.destreza = destreza
+        if arma != None:
+            self.arma = arma
 
     def __str__(self):
         return f"{self.nome}: Vida {self.vida}, Dano {self.dano}, Destreza {self.destreza}"
+    
+    def up_status(self, dano=0, vida=0, destreza=0):
+        self.dano = self.dano + dano
+        self.vida = self.vida + vida
+        self.destreza = self.destreza + destreza
+
+    def down_status(self, dano=0, vida=0, destreza=0):
+        self.dano = self.dano - dano
+        self.vida = self.vida - vida
+        self.destreza = self.destreza - destreza
 
 # Sistema de combate
 
 class personagem():
-    def __init__(self, nome, dano, vida, destreza):
+    def __init__(self, nome, vida, dano, destreza, ):
         self.nome = nome
         self.dano = dano
         self.vida = vida
         self.destreza = destreza
+        self.maxdano = dano
+        self.maxvida = vida
+
     def __str__(self):
         return f"Nome: {self.nome}\nDano: {self.dano}\nVida: {self.vida}\nDestreza: {self.destreza}"
+    
+    def up_status(self, dano=0, vida=0, destreza=0):
+        self.dano = self.dano + dano
+        self.vida = self.vida + vida
+        self.destreza = self.destreza + destreza
 
-personagens = [
-    ["Alrindel", 15, 13, 25],
-    ["Baruk", 20, 20, 7],
-    ["Gideon", 35, 26, 8],
-    ["Lyra", 9, 8, 16],
-    ["Valeria", 15, 27, 19],
-]
+    def down_status(self, dano=0, vida=0, destreza=0):
+        self.dano = self.dano - dano
+        self.vida = self.vida - vida
+        self.destreza = self.destreza - destreza
+
+#####
+
+class arma():
+    def __init__(self, nome, dano):
+        self.nome = nome
+        self.dano = dano
+    def __str__(self):
+        return f"{self.nome}:\nDano {self.dano}"
+
+# Sistema de usar um item
+
+#personagens = [
+#    ["Alrindel", 15, 13, 25],
+#    ["Baruk", 20, 20, 7],
+#    ["Gideon", 35, 26, 8],
+#    ["Lyra", 9, 8, 16],
+#    ["Valeria", 15, 27, 19]
+#]
+
 personage = [
     personagem("Alrindel", 15, 13, 25),
     personagem("Baruk", 20, 20, 7),
@@ -34,97 +73,150 @@ personage = [
     personagem("Valeria", 15, 27, 19)
 ]
 
-def combate():
-    player_status = [
-        {
-            "pdano": personagem.dano,
-            "pvida": personagem.vida,
-            "pdest": personagem.destreza
-        }
-    ]
-    monstro_status = [
-        {
-            "mdano": Monstro.dano,
-            "mvida": Monstro.vida,
-            "mdest": Monstro.destreza
-        }
-    ]
+def atacar_player(personagem, Monstro, arma = None):
+    opcao = [1, 2]
+    chance = [(personagem.destreza), (Monstro.destreza / 2)]
+    chanceC = [1, 9]
+    acerto = choices(opcao, chance)
+    acerto = int(acerto[0])
+    if arma == None:
+        class arma():
+            def __init__(self, nome, dano):
+                self.nome = nome
+                self.dano = dano
+        arma = arma("mão", 4)
+    if acerto == 1:
+        critico = choices(opcao, chanceC)
+        critico = int(critico[0])
+        if critico == 1:
+            dano = arma.dano + personagem.dano
+            return dano
+        if critico == 2:
+            dano = arma.dano + (randint(1, (int(personagem.dano / 2))))
+            return dano
+    elif acerto == 2:
+        erro = 0
+        return erro
+    else:
+        return ("erro total")
+    print("FIM")
 
+def atacar_monstro(personagem, Monstro, arma = None):
+    opcao = [1, 2]
+    chance = [(personagem.destreza / 2), (Monstro.destreza)]
+    chanceC = [1, 9]
+    acerto = choices(opcao, chance)
+    acerto = int(acerto[0])
+    if arma == None:
+        class arma():
+            def __init__(self, nome, dano):
+                self.nome = nome
+                self.dano = dano
+        arma = arma("mão/pata/garra", (int(Monstro.dano / 2)))
+    if acerto == 2:
+        critico = choices(opcao, chanceC)
+        critico = int(critico[0])
+        if critico == 1:
+            dano = arma.dano + Monstro.dano
+            return dano
+        if critico == 2:
+            dano = arma.dano + (randint(1, (int(Monstro.dano / 2))))
+            return dano
+    elif acerto == 1:
+        erro = 0
+        return erro
+    else:
+        return ("erro total")
+    print("FIM")
 
 # Monstros Fáceis
-
 monstrosFaceis = [
-    Monstro("Goblin", 50, 10, 10),
-    Monstro("Esqueleto Guerreiro", 60, 18, 12),
-    Monstro("Fantasma", 80, 15, 20),
-    Monstro("Lobo Gigante", 70, 20, 18),
-    Monstro("Harpia", 100, 22, 25)
+    Monstro("Goblin", 50, 10, 10, arma("Adaga enferrujada", 8)),
+    Monstro("Esqueleto Guerreiro", 60, 18, 12, arma("Espada longa", 8)),
+    Monstro("Fantasma", 80, 15, 20),  # Fantasmas não precisam de armas físicas
+    Monstro("Lobo Gigante", 70, 20, 18),  # Lobos atacam com garras e presas
+    Monstro("Harpia", 100, 22, 25)  # Harpias normalmente atacam com garras
 ]
 
 # Monstros Moderados
-
 monstrosModerados = [
-    Monstro("Orc", 120, 25, 8),
-    Monstro("Basilisco", 150, 35, 10),
-    Monstro("Mago Negro", 90, 25, 14),
-    Monstro("Quimera", 160, 40, 16),
-    Monstro("Beholder", 170, 35, 19)
+    Monstro("Orc", 120, 25, 8, arma("Machado de guerra", 17)),
+    Monstro("Basilisco", 150, 35, 10),  # Basiliscos usam ataques naturais
+    Monstro("Mago Negro", 90, 25, 14, arma("Cajado mágico", 12)),
+    Monstro("Quimera", 160, 40, 16),  # Quimeras não usam armas
+    Monstro("Beholder", 170, 35, 19)  # Beholders usam ataques mágicos
 ]
 
 # Monstros Difíceis
-
 monstrosDificeis = [
-    Monstro("Troll", 180, 30, 5),
-    Monstro("Dragão Jovem", 250, 40, 15),
-    Monstro("Minotauro", 200, 38, 7),
-    Monstro("Ciclope", 280, 45, 6),
-    Monstro("Vampiro", 110, 30, 22),
-    Monstro("Golem de Pedra", 220, 28, 3),
-    Monstro("Dragão Adulto", 300, 50, 17),
-    Monstro("Fênix", 260, 48, 24),
-    Monstro("Manticora", 190, 42, 13),
-    Monstro("Griffo", 130, 32, 20)
+    Monstro("Troll", 180, 30, 5, arma("Clava", 14)),
+    Monstro("Dragão Jovem", 250, 40, 15),  # Dragões usam garras e fogo
+    Monstro("Minotauro", 200, 38, 7, arma("Machado duplo", 18)),
+    Monstro("Ciclope", 280, 45, 6, arma("Clava", 14)),
+    Monstro("Vampiro", 110, 30, 22, arma("Espada cerimonial", 28)),
+    Monstro("Golem de Pedra", 220, 28, 3),  # Golems não usam armas
+    Monstro("Dragão Adulto", 300, 50, 17),  # Dragões usam ataques naturais
+    Monstro("Fênix", 260, 48, 24),  # Fênix usa fogo e asas
+    Monstro("Manticora", 190, 42, 13),  # Mantícoras atacam com garras e caudas
+    Monstro("Griffo", 130, 32, 20)  # Grifos usam garras e bicos
 ]
 
-inventário = [
-    # Armas
+armas = [
+    {
+        "status": arma("Adaga enferrujada", 8),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Espada longa", 8),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Machado de guerra", 17),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Cajado mágico", 12),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Clava", 14),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Machado duplo", 18),
+        "tipo": "arma"
+    },
+    {
+        "status": arma("Espada cerimonial", 24),
+        "tipo": "arma"
+    }
+]
 
-    {
-        "nome": "Espada Longa",
-        "tipo": "arma",
-        "dano": 8,
-        "propriedades": ["cortante", "perfurante"],
-        "encantamento": "Fogo",
+inventário = [{
+        "status": arma("Espada Longa", 8),
+        "tipo": "arma"
     },
     {
-        "nome": "Arco Composto",
-        "tipo": "arma",
-        "dano": 6,
-        "alcance": "longo",
-        "propriedades": ["perfurante"],
-        "munição": "Flechas"
+        "status": arma("Arco Composto", 6),
+        "tipo": "arma"
     },
-    
     # Equipamentos
 
     {
         "nome": "Escudo de Batalha",
         "tipo": "equipamento",
         "defesa": 5,
-        "material": "metal",
-        "propriedades": ["bloqueio", "resistência a impacto"]
+        "propriedades": ["bloqueio"]
     },
     {
         "nome": "Capuz do Ladrão",
         "tipo": "equipamento",
-        "bonus": "furtividade +2",
-        "propriedades": ["camuflagem"]
+
     },
     {
         "nome": "Bota de Velocidade",
         "tipo": "equipamento",
-        "bonus": "velocidade +3",
-        "propriedades": ["agilidade"]
+
     },
 
     # Curas
@@ -139,7 +231,7 @@ inventário = [
         "tipo": "cura",
         "bonus": "recupera 100 de vida",
     }
-]
+    ]
 
 trabalhos = [
     {

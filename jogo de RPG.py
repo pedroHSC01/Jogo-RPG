@@ -1,7 +1,9 @@
 import random
+import time
+from random import choices
 from funções import lista, texto
-from itens import monstrosFaceis, inventário, trabalhos, monstrosModerados, monstrosDificeis, personagem, personagens, Monstro
-
+from itens import monstrosFaceis, inventário, trabalhos, monstrosModerados, monstrosDificeis, personagem, Monstro, personage, atacar_player, arma, atacar_monstro
+from IA_grog import combate
 ### progressão de cenários
 
 from langchain_openai import ChatOpenAI
@@ -10,8 +12,6 @@ from langchain_core.prompts import PromptTemplate
 # from langchain_core.output_parsers.string import StrOutputParser
 from openai import OpenAI
 from dotenv import load_dotenv, find_dotenv
-
-
 
 #HUD
 
@@ -27,18 +27,17 @@ print("\n")
 print("""
       Olá usuário, muito obrigado e bem vindo ao jogo que fiz de RPG
       Este jogo é focado mais em combate que em história, não temos eventos por enquanto
-      então, F. Mas ainda dá para se divertir \n 
-      """)
+      então, F. Mas ainda dá para se divertir \n \n""")
 opcao = False
 op = [1, 2, 3, 4]
 c_cura = 0
 
 while True:
     print("Escolha um personagem: (Número que ele está)", end="\n \n")
-    for i, perso in enumerate(personagens):
-        print(f"{i + 1} - {perso[0]}")
-        print(f"dano - {perso[1]}\n", f"vida - {perso[2]}\n", f"destreza - {perso[3]}\n")
-    person = int(input("\n R:"))
+    for i, perso in enumerate(personage):
+        print(f"{i + 1} - ", end="")
+        print(perso, end="\n \n")
+    person = int(input("\nR:"))
 
     if person == 1:
         personagem = personagem("Alrindel", 15, 13, 25)
@@ -53,17 +52,14 @@ while True:
         personagem = personagem("Lyra", 9, 8, 16)
         break  
     elif person == 5:
-        personagem = personagem("Valeria", 15, 27, 19)
+        personagem = personagem("Valeria", 40, 27, 19)
         break 
     else:
         print("Digite uma seleção válida", end="\n \n")
 
-print(personagem.nome,
-      personagem.dano,
-      personagem.vida,
-      personagem.destreza)
-
-while True:
+print(personagem)
+evento = ""
+while evento != "02":
     opcao = int(input(esc))
 
     try:
@@ -86,18 +82,17 @@ R: """))
 
                 if opcao2 not in (op):
                     print("Opção inexistente")
-
             except:
                 print("Erro")
             erro = False
 
-            while True:
+            while evento != "02":
                 try:
-                    opcao3 = str(input(
-"""
+                    opcao3 = str(input("""
 Tem certeza? S/N
 
 R: """)).upper()
+                    texto.linhas(1)
                 except:
                     if opcao3 not in ("SN"):
                         print("Opção inexistente")
@@ -105,29 +100,60 @@ R: """)).upper()
                         print("Erro")
                 else:
                     if opcao3 == "S":
-                        if opcao2 == 1:
-                            monstro_atual = random.choice(lista.get_list(monstrosFaceis))
-                            break
-                        elif opcao2 == 2:
-                            monstro_atual = random.choice(lista.get_list(monstrosModerados))
-                            break
-                        elif opcao2 == 3:
-                            monstro_atual = random.choice(lista.get_list(monstrosDificeis))
-                            break
-
-                        Resumo = f"Monstro que estamos lutando '{monstro_atual.nome}'. Vida do player {personagem.vida}, vida do monstro {monstro_atual.vida}"
-                        print(Resumo)
-
-                        _ = load_dotenv(find_dotenv())
-
-                        combate = f"""Sua missão é simular um combate em um RPG, aqui estão os status dos usuários {Resumo}. Se o player ou o jogador tiver ferido, diga onde ele está ferido, quão grave é a ferida."""
-
-                        prompt = PromptTemplate.from_template(template=combate)
-                        chat = ChatGroq(model="Llama3-8b-8192")
-
-                        chain = prompt|chat
                         
-                        print(chain.invoke("Status do combate."))
+                            if opcao2 == 1:
+                                monstro_atual = random.choice(lista.get_list(monstrosFaceis))
+                            elif opcao2 == 2:
+                                monstro_atual = random.choice(lista.get_list(monstrosModerados))
+                            elif opcao2 == 3:
+                                monstro_atual = random.choice(lista.get_list(monstrosDificeis))
+                            print(monstro_atual, end="\n  \n")
+                            combate(inimigo=monstro_atual)
+                            while True:
+                                texto.linha(25)
+                                cont = 0
+                                for i, item in enumerate(inventário):
+                                    cont += 1
+                                    if cont == 1:
+                                        lista_armas = []
+                                    if item["tipo"] == "arma":
+                                        arma_atual = item['status']
+                                        print(f"{i + 1} - {arma_atual.nome}")
+                                        lista_armas.append(arma_atual)
+                                texto.linha(25)
+                                arma_equi = int(input("Escolha uma arma (pelo número): "))
+                                arma_atual = lista_armas[arma_equi - 1]
+                                dano_player = atacar_player(personagem, monstro_atual, arma_atual)
+                                vidaM = monstro_atual.vida - dano_player
+                                print(vidaM)
+
+                                texto.processando(2)
+
+                                if vidaM <= 0:
+                                    print("Monstro derrotado")
+                                    evento = "01" # Monstro derrotado
+                                    break
+                                if dano_player != 0:
+                                    print(f"Você deu {dano_player} de dano. Agora é o turno do seu inimigo!")
+                                    monstro_atual.down_status(vida=dano_player)
+                                else:
+                                    print(f"Você \033[31mErrou o golpe\033[m. Agora é o turno do seu inimigo!")
+
+                                dano_monstro = atacar_monstro(personagem, monstro_atual)
+                                personagem.down_status(vida=dano_monstro)
+
+                                texto.processando(3.5)
+
+                                if personagem.vida <= 0:
+                                    evento = "02"
+                                    break
+                                if dano_monstro != 0:
+                                    print(f"O monstro deu {dano_monstro} de dano. Agora é o seu turno!")
+                                else:
+                                    print(f"O monstro \033[32mErrou o golpe\033[m. Agora é o seu turno!")
+                                time.sleep(1)
+                                print(f"Você está com {personagem.vida}/{personagem.maxvida} de vida.")
+
                     elif opcao2 == "N":
                         break
 
@@ -154,3 +180,4 @@ R: """)).upper()
         if c_cura == 0:
             print("\033[1;31mVocê não tem nenhuma cura\033[m", end='\n \n')
         c_cura = 0
+print("Você morreu...")
