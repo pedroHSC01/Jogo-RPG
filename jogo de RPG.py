@@ -154,4 +154,3 @@ R: """)).upper()
         if c_cura == 0:
             print("\033[1;31mVocê não tem nenhuma cura\033[m", end='\n \n')
         c_cura = 0
-    evento = monstro_atual = False

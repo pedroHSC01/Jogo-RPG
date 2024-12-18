@@ -88,6 +88,7 @@ monstrosDificeis = [
 
 inventário = [
     # Armas
+
     {
         "nome": "Espada Longa",
         "tipo": "arma",
@@ -105,6 +106,7 @@ inventário = [
     },
     
     # Equipamentos
+
     {
         "nome": "Escudo de Batalha",
         "tipo": "equipamento",
@@ -126,6 +128,7 @@ inventário = [
     },
 
     # Curas
+
     {
         "nome": "poção de cura 20",
         "tipo": "cura",
@@ -163,4 +166,68 @@ trabalhos = [
         "tempo": 10,
         "dinheiro": "18"
     }
+]
+
+# Ferimentos
+
+# Ferimentos Leves
+ferimentos_leves = [
+    "Arranhão",
+    "Contusão leve",
+    "Laceração superficial",
+    "Torção de dedo",
+    "Queimadura de primeiro grau",
+    "Machucado no joelho",
+    "Dor muscular leve"
+]
+
+# Ferimentos Moderados
+
+ferimentos_moderados = [
+    "Corte profundo",
+    "Fratura na costela",
+    "Queimadura de segundo grau",
+    "Deslocamento de ombro",
+    "Concussão leve",
+    "Laceração extensa",
+    "Torção de tornozelo",
+    "Perfuração muscular",
+    "Entorse no pulso",
+    "Fratura no dedo",
+    "Lesão no ombro",
+    "Lesão no braço"
+]
+
+# Ferimentos Graves
+
+ferimentos_graves = [
+    "Fratura exposta",
+    "Concussão severa",
+    "Queimadura de terceiro grau",
+    "Hemorragia externa",
+    "Fratura múltipla",
+]
+
+# Ferimentos Críticos
+
+ferimentos_criticos = [
+    "Amputação de membro",
+    "Dano cerebral grave",
+    "Hemorragia interna massiva",
+    "Perfuração de órgão vital",
+    "Parada cardíaca",
+    "Lesão cerebral traumática",
+    "Fratura de crânio",
+    "Perda de membro por necrose",
+    "Lesão medular completa",
+    "Falha respiratória devido a lesões",
+    "Perfuração no abdômen",
+    "Lesão na coluna vertebral"    
+]
+
+# Ferimentos especiais
+
+ferimentos_especiais = [
+    "Perda de visão temporária",
+    "Dano pulmonar",
 ]
