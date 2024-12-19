@@ -55,6 +55,12 @@ class arma():
     def __str__(self):
         return f"{self.nome}:\nDano {self.dano}"
 
+class cura():
+    def __init__(self, nome, cura):
+        self.nome = nome
+        self.dano = cura
+    def __str__(self):
+        return f"{self.nome}:\nCura {self.cura}"
 # Sistema de usar um item
 
 #personagens = [
@@ -129,6 +135,7 @@ def atacar_monstro(personagem, Monstro, arma = None):
         return ("erro total")
     print("FIM")
 
+def curar():
 # Monstros Fáceis
 monstrosFaceis = [
     Monstro("Goblin", 50, 10, 10, arma("Adaga enferrujada", 8)),
@@ -159,6 +166,36 @@ monstrosDificeis = [
     Monstro("Fênix", 260, 48, 24),  # Fênix usa fogo e asas
     Monstro("Manticora", 190, 42, 13),  # Mantícoras atacam com garras e caudas
     Monstro("Griffo", 130, 32, 20)  # Grifos usam garras e bicos
+]
+
+drops_facil = [
+    {"nome": "Moeda de cobre", "tipo": "moeda"},
+    {"status": cura("Poção de cura leve", 15), "tipo": "cura"},
+    {"status": cura("Poção de cura moderada", 45), "tipo": "cura"},
+    {"nome": "Erva medicinal", "tipo": "cura"},
+    {"nome": "Pedra bruta", "tipo": "mineral"},
+    {"nome": "Pedaço de couro", "tipo": "equipamento"},
+    {"nome": "Osso de animal", "tipo": "mineral"}
+]
+
+drops_moderado = [
+    {"nome": "Moeda de prata", "tipo": "moeda"},
+    {"status": cura("Poção de cura moderada", 45), "tipo": "cura"},
+    {"nome": "Pedra preciosa", "tipo": "mineral"},
+    {"nome": "Metal bruto", "tipo": "mineral"},
+    {"nome": "Pedaço de pele de animal", "tipo": "equipamento"},
+    {"nome": "Osso de criatura", "tipo": "mineral"},
+    {"nome": "Armadura de couro média", "tipo": "equipamento"}
+]
+
+drops_dificil = [
+    {"nome": "Moeda de ouro", "tipo": "moeda"},
+    {"status": cura("Poção de cura potente", 75), "tipo": "cura"},
+    {"nome": "Gemas preciosas", "tipo": "mineral"},
+    {"nome": "Metal raro", "tipo": "mineral"},
+    {"status": cura("Poção de cura moderada", 45 ), "tipo": "cura"},
+    {"nome": "Osso de monstro", "tipo": "mineral"},
+    {"nome": "Armadura de aço", "tipo": "equipamento"}
 ]
 
 armas = [
@@ -217,22 +254,8 @@ inventário = [{
         "nome": "Bota de Velocidade",
         "tipo": "equipamento",
 
-    },
-
-    # Curas
-
-    {
-        "nome": "poção de cura 20",
-        "tipo": "cura",
-        "bonus": "recupera 20 de vida",
-    },
-    {
-        "nome": "poção de cura 100",
-        "tipo": "cura",
-        "bonus": "recupera 100 de vida",
     }
-    ]
-
+]
 trabalhos = [
     {
         "nome": "Atendente de Loja",

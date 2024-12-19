@@ -40,4 +40,3 @@ def combate(mem = False, lesao = "", debuf = "", inimigo = ""):
         return print(a)
 
 combate()
-

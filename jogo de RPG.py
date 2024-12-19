@@ -23,6 +23,15 @@ esc = """Opções:
 4-Usar cura
 
 Ação: """
+
+esc2 = """Opções:
+
+1 - atacar
+2 - Invetário
+3 - status do personagem
+
+Ação: """
+
 print("\n")
 print("""
       Olá usuário, muito obrigado e bem vindo ao jogo que fiz de RPG
@@ -109,10 +118,9 @@ R: """)).upper()
                                 monstro_atual = random.choice(lista.get_list(monstrosDificeis))
                             print(monstro_atual, end="\n  \n")
                             combate(inimigo=monstro_atual)
-                            while True:
-                                texto.linha(25)
-                                cont = 0
-                                for i, item in enumerate(inventário):
+
+                            texto.linha(25)
+                            for i, item in enumerate(inventário):
                                     cont += 1
                                     if cont == 1:
                                         lista_armas = []
@@ -120,13 +128,32 @@ R: """)).upper()
                                         arma_atual = item['status']
                                         print(f"{i + 1} - {arma_atual.nome}")
                                         lista_armas.append(arma_atual)
-                                texto.linha(25)
-                                arma_equi = int(input("Escolha uma arma (pelo número): "))
+                            texto.linha(25)
+                            arma_equi = int(input("Escolha uma arma (pelo número): "))
+                            while True:
+                                ### Turno do player
+                                opcao4 = input(esc2)
                                 arma_atual = lista_armas[arma_equi - 1]
-                                dano_player = atacar_player(personagem, monstro_atual, arma_atual)
-                                vidaM = monstro_atual.vida - dano_player
-                                print(vidaM)
+                                cont = 0
+                                if opcao4 == 1:
+                                    dano_player = atacar_player(personagem, monstro_atual, arma_atual)
+                                elif opcao4 == 2:
+                                    for i, item in enumerate(inventário):
+                                        print(f"{i + 1} - {item}")
+                                    while True:
+                                        usar = int(input("Digite 0 para não selecionar nada."))
+                                        if usar == inventário[usar["arma"]]:
+                                            arma_atual = inventário[usar["status"]]
+                                        elif usar == inventário[usar["cura"]]:
+                                            
 
+                                        
+                                
+                                print(monstro_atual.arma)
+
+                                vidaM = monstro_atual.down_status(vida=dano_player)
+                                print(vidaM)
+                                
                                 texto.processando(2)
 
                                 if vidaM <= 0:
@@ -135,10 +162,10 @@ R: """)).upper()
                                     break
                                 if dano_player != 0:
                                     print(f"Você deu {dano_player} de dano. Agora é o turno do seu inimigo!")
-                                    monstro_atual.down_status(vida=dano_player)
                                 else:
                                     print(f"Você \033[31mErrou o golpe\033[m. Agora é o turno do seu inimigo!")
 
+                                ###
                                 dano_monstro = atacar_monstro(personagem, monstro_atual)
                                 personagem.down_status(vida=dano_monstro)
 
@@ -153,10 +180,8 @@ R: """)).upper()
                                     print(f"O monstro \033[32mErrou o golpe\033[m. Agora é o seu turno!")
                                 time.sleep(1)
                                 print(f"Você está com {personagem.vida}/{personagem.maxvida} de vida.")
-
                     elif opcao2 == "N":
                         break
-
     if opcao == 2:
         print(texto.linha(30))
         for i, item in enumerate(inventário):
