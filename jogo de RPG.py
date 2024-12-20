@@ -171,7 +171,6 @@ R: """)).upper()
 
                                 monstro_atual.down_status(vida=dano_player)
                                 vidaM = monstro_atual.vida
-                                print(vidaM)
                                 
                                 texto.processando(2)
 
@@ -182,7 +181,6 @@ R: """)).upper()
                                             drop = random.choice(drops_facil)
                                             quant = random.choices(quantidade, pesos)
                                             quant2 = quant[0]
-                                            print(quant2)
                                             print(f"{quant2}x - {drop['nome']}")
                                             for i in range(0, quant2):
                                                 adicionar_ao_inventario(inventário, drop)
@@ -194,7 +192,6 @@ R: """)).upper()
                                             drop = random.choice(drops_moderado)
                                             quant = random.choices(quantidade, pesos)
                                             quant2 = quant[0]
-                                            print(quant2)
                                             print(f"{quant2}x - {drop['nome']}")
                                             for i in range(1, quant2):
                                                 adicionar_ao_inventario(inventário, drop)
@@ -206,7 +203,6 @@ R: """)).upper()
                                             drop = random.choice(drops_dificil)
                                             quant = random.choices(quantidade, pesos)
                                             quant2 = quant[0]
-                                            print(quant2)
                                             print(f"{quant2}x - {drop['nome']}")
                                             for i in range(1, quant2):
                                                 adicionar_ao_inventario(inventário, drop)
