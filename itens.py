@@ -72,6 +72,7 @@ class cura():
 #]
 
 personage = [
+    personagem("ADM supremo", 1000, 1000, 1000),
     personagem("Alrindel", 15, 13, 25),
     personagem("Baruk", 20, 20, 7),
     personagem("Gideon", 35, 26, 8),
@@ -184,10 +185,16 @@ monstrosDificeis = [
     Monstro("Griffo", 130, 32, 20)  # Grifos usam garras e bicos
 ]
 
+s_facil = [
+    {"nome": "Moeda de cobre", "tipo": "moeda", "quantidade": 1},
+    {"nome": "Poção de cura leve", "status": cura("Poção de cura leve", 15), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura moderada", "status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1}
+]
+
 drops_facil = [
     {"nome": "Moeda de cobre", "tipo": "moeda", "quantidade": 1},
-    {"status": cura("Poção de cura leve", 15), "tipo": "cura", "quantidade": 1},
-    {"status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura leve", "status": cura("Poção de cura leve", 15), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura moderada", "status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
     {"nome": "Erva medicinal", "tipo": "cura", "quantidade": 1},
     {"nome": "Pedra bruta", "tipo": "mineral", "quantidade": 1},
     {"nome": "Pedaço de couro", "tipo": "equipamento", "quantidade": 1},
@@ -196,7 +203,7 @@ drops_facil = [
 
 drops_moderado = [
     {"nome": "Moeda de prata", "tipo": "moeda", "quantidade": 1},
-    {"status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura moderada", "status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
     {"nome": "Pedra preciosa", "tipo": "mineral", "quantidade": 1},
     {"nome": "Metal bruto", "tipo": "mineral", "quantidade": 1},
     {"nome": "Pedaço de pele de animal", "tipo": "equipamento", "quantidade": 1},
@@ -206,10 +213,10 @@ drops_moderado = [
 
 drops_dificil = [
     {"nome": "Moeda de ouro", "tipo": "moeda", "quantidade": 1},
-    {"status": cura("Poção de cura potente", 75), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura potente", "status": cura("Poção de cura potente", 75), "tipo": "cura", "quantidade": 1},
     {"nome": "Gemas preciosas", "tipo": "mineral", "quantidade": 1},
     {"nome": "Metal raro", "tipo": "mineral", "quantidade": 1},
-    {"status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
+    {"nome": "Poção de cura moderada", "status": cura("Poção de cura moderada", 45), "tipo": "cura", "quantidade": 1},
     {"nome": "Osso de monstro", "tipo": "mineral", "quantidade": 1},
     {"nome": "Armadura de aço", "tipo": "equipamento", "quantidade": 1}
 ]

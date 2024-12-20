@@ -49,18 +49,21 @@ while True:
     person = int(input("\nR:"))
 
     if person == 1:
+        personagem = personagem("ADM supremo", 1000, 1000, 1000)
+        break  
+    if person == 2:
         personagem = personagem("Alrindel", 15, 13, 25)
         break  
-    elif person == 2:
+    elif person == 3:
         personagem = personagem("Baruk", 20, 20, 7)
         break  
-    elif person == 3:
+    elif person == 4:
         personagem = personagem("Gideon", 35, 26, 8)
         break  
-    elif person == 4:
+    elif person == 5:
         personagem = personagem("Lyra", 9, 8, 16)
         break  
-    elif person == 5:
+    elif person == 6:
         personagem = personagem("Valeria", 40, 27, 19)
         break 
     else:
@@ -70,6 +73,7 @@ print(personagem)
 evento = ""
 while evento != "02":
     opcao = int(input(esc))
+    evento = ""
 
     try:
         if opcao not in (op):
@@ -174,25 +178,25 @@ R: """)).upper()
                                 if vidaM <= 0:
                                     print("Monstro derrotado!!")
                                     if dificuldade == 1:
-                                       
-                                        for i in range(0, random.randint(0, 2)):
+                                        for i in range(0, random.randint(1, 5)):
                                             drop = random.choice(drops_facil)
-                                            quantidade = random.choices(quantidade, pesos)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
+                                            quant = random.choices(quantidade, pesos)
+                                            quant2 = quant[0]
+                                            print(quant2)
+                                            print(f"{quant2}x - {drop['nome']}")
+                                            for i in range(0, quant2):
+                                                adicionar_ao_inventario(inventário, drop)
                                         evento = "01" # Monstro derrotado
                                         dificuldade = 0
                                         break
                                     elif dificuldade == 2:
-                                        for i in range(0, random.randint(0, 2)):
-                                            drop = random.choice(drops_moderado, pesos)
-                                            quantidade = random.choices(quantidade, pesos)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            for i in range(1, quantidade):
+                                        for i in range(0, random.randint(1, 3)):
+                                            drop = random.choice(drops_moderado)
+                                            quant = random.choices(quantidade, pesos)
+                                            quant2 = quant[0]
+                                            print(quant2)
+                                            print(f"{quant2}x - {drop['nome']}")
+                                            for i in range(1, quant2):
                                                 adicionar_ao_inventario(inventário, drop)
                                         evento = "01" # Monstro derrotado
                                         dificuldade = 0
@@ -200,11 +204,15 @@ R: """)).upper()
                                     elif dificuldade == 3:
                                         for i in range(0, random.randint(0, 2)):
                                             drop = random.choice(drops_dificil)
-                                            quantidade = random.choices(quantidade, pesos)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - {drop}")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
+                                            quant = random.choices(quantidade, pesos)
+                                            quant2 = quant[0]
+                                            print(quant2)
+                                            print(f"{quant2}x - {drop['nome']}")
+                                            for i in range(1, quant2):
+                                                adicionar_ao_inventario(inventário, drop)
+                                        evento = "01" # Monstro derrotado
+                                        dificuldade = 0
+                                        break
                                     evento = "01" # Monstro derrotado
                                     dificuldade = 0
                                     break
@@ -233,8 +241,10 @@ R: """)).upper()
     if opcao == 2:
         print(texto.linha(30))
         for i, item in enumerate(inventário):
-        
-            print(f"{i + 1} - {item['nome']}")
+            if item['quantidade'] <= 1:
+                print(f"{i + 1}{"- ":>3}{item['nome']}")
+            else:
+                print(f"{i + 1}{"- ":>3}{item['nome']} x{item["quantidade"]}")
         print(texto.linha(30), "\n")
     if opcao == 3:
         print(texto.linha(30), "\n")
