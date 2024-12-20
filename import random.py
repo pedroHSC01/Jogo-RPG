@@ -2,7 +2,7 @@ import random
 import time
 from random import choices
 from funções import lista, texto, matematica
-from itens import monstrosFaceis, inventário, trabalhos, monstrosModerados, monstrosDificeis, personagem, Monstro, personage, atacar_player, arma, atacar_monstro, curar, cura, drops_facil, drops_moderado, drops_dificil, quantidade, pesos, adicionar_ao_inventario
+from itens import monstrosFaceis, inventário, trabalhos, monstrosModerados, monstrosDificeis, personagem, Monstro, personage, atacar_player, arma, atacar_monstro, curar, cura
 from IA_grog import combate
 ### progressão de cenários
 
@@ -112,13 +112,10 @@ R: """)).upper()
                         
                             if opcao2 == 1:
                                 monstro_atual = random.choice(lista.get_list(monstrosFaceis))
-                                dificuldade = 1
                             elif opcao2 == 2:
                                 monstro_atual = random.choice(lista.get_list(monstrosModerados))
-                                dificuldade = 2
                             elif opcao2 == 3:
                                 monstro_atual = random.choice(lista.get_list(monstrosDificeis))
-                                dificuldade = 3
                             print(monstro_atual, end="\n  \n")
                             combate(inimigo=monstro_atual)
                             cont = 0
@@ -142,6 +139,7 @@ R: """)).upper()
                                         dano_player = atacar_player(personagem, monstro_atual, arma_atual)
                                         break
                                     elif opcao4 == 2:
+                                        print("Esxecutando")
                                         for i, item in enumerate(inventário):
                                             print(f"{i + 1} - {item["nome"]}")
                                         while True:
@@ -173,39 +171,7 @@ R: """)).upper()
 
                                 if vidaM <= 0:
                                     print("Monstro derrotado!!")
-                                    if dificuldade == 1:
-                                       
-                                        for i in range(0, random.randint(0, 2)):
-                                            drop = random.choice(drops_facil)
-                                            quantidade = random.choice(quantidade, pesos, k=1)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
-                                        evento = "01" # Monstro derrotado
-                                        dificuldade = 0
-                                        break
-                                    elif dificuldade == 2:
-                                        for i in range(0, random.randint(0, 2)):
-                                            drop = random.choice(drops_moderado, pesos, k=1)
-                                            quantidade = random.choice(quantidade, pesos)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
-                                        evento = "01" # Monstro derrotado
-                                        dificuldade = 0
-                                        break
-                                    elif dificuldade == 3:
-                                        for i in range(0, random.randint(0, 2)):
-                                            drop = random.choice(drops_dificil)
-                                            quantidade = random.choice(quantidade, pesos, k=1)
-                                            quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
-                                            adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
                                     evento = "01" # Monstro derrotado
-                                    dificuldade = 0
                                     break
                                 if dano_player != 0:
                                     print(f"Você deu {dano_player} de dano. Agora é o turno do seu inimigo!")
@@ -246,6 +212,8 @@ R: """)).upper()
     if opcao == 4:
         print(texto.linha(30), end="\n \n")
         o = 1
+        personagem.down_status(vida = 18)
+        print(personagem.vida)
         for i, item in enumerate(inventário):
             if o == 1:
                 lista_cura = []
@@ -258,8 +226,10 @@ R: """)).upper()
             opcao5 = int(input("Quer usar qual cura?\n\nR: "))
             opcao5 = opcao5 - 1
             cura_atual = lista_cura[opcao5]["status"]
+            print(cura_atual)
             texto.processando(1)
             curou = curar(personagem, cura_atual.cura)
+            print(curou)
             print(f"Você curou {curou}. E agora está com {personagem.vida}/{personagem.maxvida}")
         else:
             print("\033[1;31mVocê não tem nenhuma cura\033[m", end='\n \n')
