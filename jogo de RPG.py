@@ -146,7 +146,9 @@ R: """)).upper()
                                             print(f"{i + 1} - {item["nome"]}")
                                         while True:
                                             usar = int(input("Digite 0 para não selecionar nada.\n\nR: "))
-                                            usar = int(usar - 1)
+                                            usar = usar - 1
+                                            if usar == -1:
+                                                break
                                             if inventário[usar]["tipo"] == "arma":
                                                 arma_atual = inventário[usar]["status"]
                                                 print(f"Sua arma agora é {arma_atual}")
@@ -158,8 +160,6 @@ R: """)).upper()
                                                 print(f"Você curou {curou}. E agora está com {personagem.vida}/{personagem.maxvida}")
                                             else:
                                                 print("Opção inválida")
-                                            if usar == -1:
-                                                break
                                 try:
                                     print(monstro_atual.arma)
                                 except:
@@ -177,7 +177,7 @@ R: """)).upper()
                                        
                                         for i in range(0, random.randint(0, 2)):
                                             drop = random.choice(drops_facil)
-                                            quantidade = random.choice(quantidade, pesos, k=1)
+                                            quantidade = random.choices(quantidade, pesos)
                                             quantidade = quantidade[0]
                                             print(f"{quantidade}x - drop")
                                             adicionar_ao_inventario(inventário, drop)
@@ -187,21 +187,22 @@ R: """)).upper()
                                         break
                                     elif dificuldade == 2:
                                         for i in range(0, random.randint(0, 2)):
-                                            drop = random.choice(drops_moderado, pesos, k=1)
-                                            quantidade = random.choice(quantidade, pesos)
+                                            drop = random.choice(drops_moderado, pesos)
+                                            quantidade = random.choices(quantidade, pesos)
                                             quantidade = quantidade[0]
                                             print(f"{quantidade}x - drop")
                                             adicionar_ao_inventario(inventário, drop)
-                                            inventário.append(drop * quantidade)
+                                            for i in range(1, quantidade):
+                                                adicionar_ao_inventario(inventário, drop)
                                         evento = "01" # Monstro derrotado
                                         dificuldade = 0
                                         break
                                     elif dificuldade == 3:
                                         for i in range(0, random.randint(0, 2)):
                                             drop = random.choice(drops_dificil)
-                                            quantidade = random.choice(quantidade, pesos, k=1)
+                                            quantidade = random.choices(quantidade, pesos)
                                             quantidade = quantidade[0]
-                                            print(f"{quantidade}x - drop")
+                                            print(f"{quantidade}x - {drop}")
                                             adicionar_ao_inventario(inventário, drop)
                                             inventário.append(drop * quantidade)
                                     evento = "01" # Monstro derrotado
@@ -264,5 +265,4 @@ R: """)).upper()
         else:
             print("\033[1;31mVocê não tem nenhuma cura\033[m", end='\n \n')
         c_cura = 0
-
 print("Você morreu...")
